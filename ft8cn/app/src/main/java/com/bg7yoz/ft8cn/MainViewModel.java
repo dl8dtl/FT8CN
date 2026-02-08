@@ -77,6 +77,7 @@ import com.bg7yoz.ft8cn.rigs.KenwoodTS2000Rig;
 import com.bg7yoz.ft8cn.rigs.KenwoodTS570Rig;
 import com.bg7yoz.ft8cn.rigs.KenwoodTS590Rig;
 import com.bg7yoz.ft8cn.rigs.OnRigStateChanged;
+import com.bg7yoz.ft8cn.rigs.QrpLabsRig;
 import com.bg7yoz.ft8cn.rigs.TrUSDXRig;
 import com.bg7yoz.ft8cn.rigs.Wolf_sdr_450Rig;
 import com.bg7yoz.ft8cn.rigs.XieGu6100NetRig;
@@ -930,6 +931,9 @@ public class MainViewModel extends ViewModel {
                 break;
             case InstructionSet.KENWOOD_TS570:
                 baseRig = new KenwoodTS570Rig();//KENWOOD TS-570D
+                break;
+            case InstructionSet.QRP_LABS:
+                baseRig = new QrpLabsRig(); // qrp-labs.com QDX & co
                 break;
         }
 

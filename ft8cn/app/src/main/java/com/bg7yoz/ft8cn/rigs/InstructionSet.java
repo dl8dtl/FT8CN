@@ -26,6 +26,7 @@ public class InstructionSet {
     public static final int XIEGU_6100_FT8CNS=20;//6100的ft8cns版
     public static final int YAESU_847=21;//Ft-847
     public static final int ICOM_756=22;//Ft-847
+    public static final int QRP_LABS=23; // qrp-labs.com QDX & co
 
 
 
