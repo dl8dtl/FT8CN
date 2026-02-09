@@ -18,7 +18,7 @@ public class QrpLabsRigConstant {
     //指令集
     private static final String PTT_ON = "TX\r";
     private static final String PTT_OFF = "RX\r";
-    private static final String USB_MODE = "MD6\r";
+    private static final String USB_MODE = "MD6;";
     private static final String READ_FREQ = "FA\r";
     private static final String READ_METERS = "RM\r";
     private static final String SET_VFO = "FR0\r";
@@ -30,7 +30,6 @@ public class QrpLabsRigConstant {
     private static final String FLEX_6000_PTT_ON = "TX01;";//FLEX_6000,PTT
     private static final String TS590_PTT_OFF = "RX;";//KENWOOD TS590,PTT
     private static final String FLEX_SET_USB_DATA = "MD9;";//FLEX6000 DIGU
-    private static final String TS590_SET_USB = "MD2;";//KENWOOD USB MODE
     private static final String TS590_READ_FREQ = "FA;";//KENWOOD 读频率
     private static final String TS590_READ_METERS = "RM;";//KENWOOD 读METER
 
@@ -114,12 +113,8 @@ public class QrpLabsRigConstant {
         return TS590_VFO_A.getBytes();
     }
 
-    public static byte[] setOperationUSBMode() {
-        return USB_MODE.getBytes();
-    }
-
     public static byte[] setTS590OperationUSBMode() {
-        return TS590_SET_USB.getBytes();
+        return USB_MODE.getBytes();
     }
 
     public static byte[] setFLEX6000OperationUSBMode() {
