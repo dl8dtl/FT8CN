@@ -14,20 +14,6 @@ import com.bg7yoz.ft8cn.ui.ToastMessage;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.bg7yoz.ft8cn.GeneralVariables.QUERY_FREQ_TIMEOUT;
-import static com.bg7yoz.ft8cn.GeneralVariables.START_QUERY_FREQ_DELAY;
-
-import android.os.Handler;
-import android.util.Log;
-
-import com.bg7yoz.ft8cn.GeneralVariables;
-import com.bg7yoz.ft8cn.R;
-import com.bg7yoz.ft8cn.database.ControlMode;
-import com.bg7yoz.ft8cn.ui.ToastMessage;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * qrp-labs.com QDX, QMX, QMX+
  * 
@@ -40,8 +26,6 @@ public class QrpLabsRig extends BaseRig {
 
     private Timer readFreqTimer = new Timer();
     private int swr = 0;
-    private int alc = 0;
-    private boolean alcMaxAlert = false;
     private boolean swrAlert = false;
 
     private TimerTask readTask() {
@@ -74,7 +58,7 @@ public class QrpLabsRig extends BaseRig {
     private void readMeters() {
         if (getConnector() != null) {
             clearBufferData();//清空一下缓存
-            getConnector().sendData(QrpLabsRigConstant.setRead590Meters());
+            getConnector().sendData(QrpLabsRigConstant.setReadMeters());
         }
     }
 
@@ -91,7 +75,7 @@ public class QrpLabsRig extends BaseRig {
         if (getConnector() != null) {
             switch (getControlMode()) {
                 case ControlMode.CAT://以CIV指令
-                    getConnector().setPttOn(QrpLabsRigConstant.setTS590PTTState(on));
+                    getConnector().setPttOn(QrpLabsRigConstant.setPTTState(on));
                     break;
                 case ControlMode.RTS:
                 case ControlMode.DTR:
@@ -112,14 +96,14 @@ public class QrpLabsRig extends BaseRig {
     @Override
     public void setUsbModeToRig() {
         if (getConnector() != null) {
-            getConnector().sendData(QrpLabsRigConstant.setTS590OperationUSBMode());
+            getConnector().sendData(QrpLabsRigConstant.setDigiMode());
         }
     }
 
     @Override
     public void setFreqToRig() {
         if (getConnector() != null) {
-            getConnector().sendData(QrpLabsRigConstant.setTS590OperationFreq(getFreq()));
+            getConnector().sendData(QrpLabsRigConstant.setOperationFreq(getFreq()));
         }
     }
 
@@ -150,13 +134,8 @@ public class QrpLabsRig extends BaseRig {
                 if (tempFreq != 0) {//如果tempFreq==0，说明频率不正常
                     setFreq(Yaesu3Command.getFrequency(yaesu3Command));
                 }
-            } else if (cmd.equalsIgnoreCase("RM")) {//meter
-                if (Yaesu3Command.is590MeterSWR(yaesu3Command)) {
-                    swr = Yaesu3Command.get590ALCOrSWR(yaesu3Command);
-                }
-                if (Yaesu3Command.is590MeterALC(yaesu3Command)) {
-                    alc = Yaesu3Command.get590ALCOrSWR(yaesu3Command);
-                }
+            } else if (cmd.equalsIgnoreCase("SW")) {//SWR
+                swr = Yaesu3Command.getQrpLabsSWR(yaesu3Command);
                 showAlert();
             }
 
@@ -165,7 +144,7 @@ public class QrpLabsRig extends BaseRig {
     }
 
     private void showAlert() {
-        if ((swr >= QrpLabsRigConstant.ts_590_swr_alert_max)
+        if ((swr >= QrpLabsRigConstant.swr_alert_max)
                 && GeneralVariables.swr_switch_on) {
             if (!swrAlert) {
                 swrAlert = true;
@@ -173,15 +152,6 @@ public class QrpLabsRig extends BaseRig {
             }
         } else {
             swrAlert = false;
-        }
-        if ((alc > QrpLabsRigConstant.ts_590_alc_alert_max)
-                && GeneralVariables.alc_switch_on) {//网络模式下不警告ALC
-            if (!alcMaxAlert) {
-                alcMaxAlert = true;
-                ToastMessage.show(GeneralVariables.getStringFromResource(R.string.alc_high_alert));
-            }
-        } else {
-            alcMaxAlert = false;
         }
 
     }
@@ -204,7 +174,7 @@ public class QrpLabsRig extends BaseRig {
             @Override
             public void run() {
                 if (getConnector() != null) {
-                    getConnector().sendData(QrpLabsRigConstant.setTS590VFOMode());
+                    getConnector().sendData(QrpLabsRigConstant.setVFOMode());
                 }
             }
         }, START_QUERY_FREQ_DELAY - 500);

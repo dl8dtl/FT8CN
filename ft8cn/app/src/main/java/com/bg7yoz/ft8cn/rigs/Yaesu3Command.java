@@ -131,6 +131,11 @@ public class Yaesu3Command {
         return command.data.charAt(2) == '1';
     }
 
+    // QRP-Labs Q*X: return SWR in hundreds, SW121 => 1:1.21
+    public static int getQrpLabsSWR(Yaesu3Command command) {
+        if (command.data.length() < 3) return 0;
+        return Integer.parseInt(command.data.substring(0, 3));
+    }
 
 
 }
