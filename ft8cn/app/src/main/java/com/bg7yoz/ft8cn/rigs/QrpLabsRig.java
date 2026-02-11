@@ -160,7 +160,7 @@ public class QrpLabsRig extends BaseRig {
     public void readFreqFromRig() {
         if (getConnector() != null) {
             clearBufferData();//清空一下缓存
-            getConnector().sendData(QrpLabsRigConstant.setTS590ReadOperationFreq());
+            getConnector().sendData(QrpLabsRigConstant.setReadOperationFreq());
         }
     }
 

@@ -64,7 +64,7 @@ public class QrpLabsRigConstant {
         return READ_METERS.getBytes();
     }
 
-    public static byte[] setTS590ReadOperationFreq() {
+    public static byte[] setReadOperationFreq() {
         return READ_FREQ.getBytes();
     }
 }
